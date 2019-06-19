@@ -19,6 +19,12 @@ public class TokenService {
     @Autowired
     private TokenRepository tokenRepository;
 
+    /**
+     * 获取指定key的token
+     *
+     * @param key
+     * @return
+     */
     public Mono<Token> get(String key) {
         return tokenRepository.findById(key);
     }

@@ -15,6 +15,12 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface TagRepository extends ReactiveMongoRepository<Tag, String> {
 
+    /**
+     * 删除指定ID标签
+     *
+     * @param id
+     * @return
+     */
     @DeleteQuery("{ '_id' : ?0 }")
     Mono<Long> removeById(String id);
 }

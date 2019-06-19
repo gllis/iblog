@@ -1,6 +1,8 @@
 package com.gllis.iblog.filter;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.gllis.iblog.model.Result;
 import com.gllis.iblog.model.Token;
 import com.gllis.iblog.service.TokenService;
@@ -48,6 +50,7 @@ public class LoginSuccessHandler implements ServerAuthenticationSuccessHandler {
     public Mono<Void> onAuthenticationSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
         ServerWebExchange exchange = webFilterExchange.getExchange();
 
+        // 生成token
         String token = Jwts.builder()
                 .setSubject(authentication.getName())
                 .setExpiration(new Date(System.currentTimeMillis() + CacheConst.TIME_OUT_ONE_DAY * 1000))
@@ -56,12 +59,15 @@ public class LoginSuccessHandler implements ServerAuthenticationSuccessHandler {
 
         webFilterExchange.getExchange().getResponse().getHeaders().add("Authorization", token);
 
-        tokenService.save(new Token(authentication.getName(), token));
-
         return userService.getByName(authentication.getName()).flatMap(user -> {
             if (user != null) {
-                return tokenService.save(new Token(authentication.getName(), token)).flatMap( t -> HttpUtils.render(exchange, new Result(user)));
+                JSONObject jo = JSON.parseObject(JSON.toJSONString(user));
+                // remove password
+                jo.remove("password");
+                // 将token保存起来，并返回用户信息
+                return tokenService.save(new Token(authentication.getName(), token, user.getRole())).flatMap( t -> HttpUtils.render(exchange, new Result(jo)));
             } else {
+                // 找不到用户返回错误码
                 return HttpUtils.render(exchange, new Result(ErrCode.USER_NOT_FOUND, null));
             }
         });

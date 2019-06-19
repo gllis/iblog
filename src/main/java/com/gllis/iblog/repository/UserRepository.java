@@ -21,6 +21,12 @@ public interface UserRepository extends ReactiveMongoRepository<User, String> {
     @Query("{}")
     Flux<User> findAll(Pageable pageable);
 
+    /**
+     * 查找指定用户名用户信息
+     *
+     * @param name
+     * @return
+     */
     @Query("{'name' : ?0}")
     Mono<User> findByName(String name);
 }

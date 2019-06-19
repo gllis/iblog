@@ -1,7 +1,6 @@
 package com.gllis.iblog.security;
 
 
-import com.gllis.iblog.model.User;
 import com.gllis.iblog.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

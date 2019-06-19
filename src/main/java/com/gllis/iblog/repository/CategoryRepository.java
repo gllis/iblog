@@ -15,6 +15,12 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface CategoryRepository extends ReactiveMongoRepository<Category, String> {
 
+    /**
+     * 删除指定ID分类
+     *
+     * @param id
+     * @return
+     */
     @DeleteQuery("{ '_id' : ?0 }")
     Mono<Long> removeById(String id);
 

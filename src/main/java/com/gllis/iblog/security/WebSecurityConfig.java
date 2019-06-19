@@ -42,6 +42,10 @@ public class WebSecurityConfig {
     public SecurityWebFilterChain securitygWebFilterChain(ServerHttpSecurity http) {
         return http.csrf().disable()
                 .authorizeExchange()
+                .pathMatchers("/article/list").permitAll()
+                .pathMatchers("/category/list").permitAll()
+                .pathMatchers("/tag/list").permitAll()
+                .pathMatchers("/p/**").permitAll()
                 .anyExchange().authenticated()
                 .and()
                 .authenticationManager(authenticationManager)
