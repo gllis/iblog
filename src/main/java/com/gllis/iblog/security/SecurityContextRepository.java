@@ -2,7 +2,7 @@ package com.gllis.iblog.security;
 
 
 import com.gllis.iblog.service.TokenService;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -47,25 +47,38 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
         String token = exchange.getRequest().getHeaders().getFirst("Authorization");
         if (token != null) {
             // 从jwt中获取用户名
-            String username = Jwts.parser()
-                    .setSigningKey(jwtKey)
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject();
+            try {
+                String username = Jwts.parser()
+                        .setSigningKey(jwtKey)
+                        .parseClaimsJws(token)
+                        .getBody()
+                        .getSubject();
 
 
-            // 从数据库中获取token进行对比成功返回鉴权信息
-            return tokenService.get(username).flatMap(_token -> {
-                if (_token == null || !token.equals(_token.getValue())) {
-                    return Mono.empty();
-                } else {
-                    List<GrantedAuthority> authorities = new ArrayList<>();
-                    authorities.add(new SimpleGrantedAuthority(_token.getRole()));
+                // 从数据库中获取token进行对比成功返回鉴权信息
+                return tokenService.get(username).flatMap(_token -> {
+                    if (_token == null || !token.equals(_token.getValue())) {
+                        return Mono.empty();
+                    } else {
+                        List<GrantedAuthority> authorities = new ArrayList<>();
+                        authorities.add(new SimpleGrantedAuthority(_token.getRole()));
 
-                    Authentication auth = new UsernamePasswordAuthenticationToken(username, token, authorities);
-                    return Mono.justOrEmpty(new SecurityContextImpl(auth));
-                }
-            });
+                        Authentication auth = new UsernamePasswordAuthenticationToken(username, token, authorities);
+                        return Mono.justOrEmpty(new SecurityContextImpl(auth));
+                    }
+                });
+            } catch (ExpiredJwtException e) {
+                e.printStackTrace();
+            } catch (UnsupportedJwtException e) {
+                e.printStackTrace();
+            } catch (MalformedJwtException e) {
+                e.printStackTrace();
+            } catch (SignatureException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+            return Mono.empty();
 
         }
         return Mono.empty();

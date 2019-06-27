@@ -42,8 +42,8 @@ public class Result {
         this.data = data;
     }
 
-    public Result(Integer total, Object data, String errmsg) {
-        this.total = total;
+    public Result(Integer errcode, Object data, String errmsg) {
+        this.errcode = errcode;
         this.data = data;
         this.errmsg = errmsg;
     }
