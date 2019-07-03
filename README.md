@@ -1,9 +1,11 @@
-# iblog-web
+# iblog个人博客（基于Nuxt.js服务器渲染(SSR)构建）
 
-> A blog web ui
+> 基于Nuxt.js服务器渲染构建的个人博客，该项目采用前后端分离实现，前端采用Nuxt.js作为主框架, axios作为网络请求插件，支持异步获取接口数据。后端使用springboot webflux实现。
 
-## Build Setup
+### 线上地址: [GL's Blog](https://gllis.com)
+### 接口源码: [iblog-api](https://github.com/gllis/iblog-api)
 
+## 构建
 ``` bash
 # install dependencies
 $ npm install
@@ -18,5 +20,3 @@ $ npm start
 # generate static project
 $ npm run generate
 ```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).

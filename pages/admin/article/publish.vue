@@ -1,30 +1,27 @@
 <template>
   <div>
-    <el-form>
-      <el-form-item label>
+    <el-form :model="entity" :rules="rules" ref="publishForm">
+      <el-form-item label prop="title">
         <el-input v-model="entity.title" placeholder="标题"></el-input>
       </el-form-item>
-      <el-form-item label>
+      <el-form-item label prop="summary">
         <el-input type="textarea" v-model="entity.summary" placeholder="简介"></el-input>
       </el-form-item>
-      <el-form-item label="分类">
-        <el-select v-model="entity.category.id" placeholder="请选择">
-          <el-option
-            v-for="item in categorys.data"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="标签">
-        <el-select v-model="tagIds" multiple placeholder="请选择">
+      <el-form-item label prop="tag">
+        <el-select v-model="entity.tag.id" placeholder="请选择标签">
           <el-option v-for="item in tags.data" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label>
         <no-ssr>
-          <mavon-editor :toolbars="markdownOption" @change="getData" v-model="entity.content"/>
+          <mavon-editor
+            ref="md"
+            :ishljs="true"
+            :toolbars="markdownOption"
+            @change="getData"
+            @imgAdd="imgAdd"
+            v-model="entity.content"
+          />
         </no-ssr>
       </el-form-item>
       <el-form-item size="large">
@@ -61,7 +58,11 @@ export default {
       content: "",
       entity: {
         content: "",
-        category: { id: "" }
+        tag: { id: "" }
+      },
+      rules: {
+        title: [{ required: true, message: "请输入标题", trigger: "blur" }],
+        summary: [{ required: true, message: "请输入简介", trigger: "blur" }],
       }
     };
   },
@@ -70,32 +71,51 @@ export default {
     if (data) {
       sessionStorage.removeItem("article");
       this.entity = JSON.parse(data);
+      if (!this.entity.tag) {
+        this.entity.tag = { id: "" };
+      }
     }
   },
   async asyncData({ $axios }) {
-    const categorys = await $axios.$get("/category/list");
-    const tags = await $axios.$get("/tag/list");
-    return { categorys, tags };
+    const tags = await $axios.$get("/admin/tag/list");
+    return { tags };
   },
   methods: {
     async onSubmit() {
-      if (this.tagIds) {
-        let tags = [];
-        this.tagIds.forEach(v => {
-          tags.push({ id: v });
-        });
-        this.entity["tags"] = tags;
+      let isValid = false;
+      this.$refs['publishForm'].validate((valid) => {
+          isValid = valid;
+      });
+      if (!isValid) {
+        return;
       }
       if (this.content) {
         this.entity["content_html"] = this.content;
       }
       const res = await this.$axios.$post("/article/save", this.entity);
-      if (res) {
-        console.info(res);
+      if (res && res.errcode == 0) {
+        this.$notify({
+            title: '发布结果',
+            message: '发布文章成功',
+            type: 'success'
+        });
       }
     },
     getData(value, render) {
       this.content = render;
+    },
+    imgAdd(pos, $file) {
+      var formdata = new FormData();
+      formdata.append("file", $file);
+      this.$axios({
+        url: "/file/upload",
+        method: "post",
+        data: formdata,
+        headers: { "Content-Type": "multipart/form-data" }
+      }).then(res => {
+        let url = res.data.data;
+        this.$refs.md.$img2Url(pos, url);
+      });
     }
   }
 };

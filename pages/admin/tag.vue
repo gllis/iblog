@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      const res = await this.$axios.$get("/tag/list");
+      const res = await this.$axios.$get("/admin/tag/list");
       this.list = res.data;
     },
     async submitForm() {

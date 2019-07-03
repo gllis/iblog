@@ -2,8 +2,8 @@
   <div>
     <el-table :data="list">
       <el-table-column type="index" width="50"></el-table-column>
+      <el-table-column label="标签" property="tag.name" width="80"></el-table-column>
       <el-table-column label="标题" property="title"></el-table-column>
-      <el-table-column label="分类" property="category.name"></el-table-column>
       <el-table-column label="简介" property="summary"></el-table-column>
       <el-table-column label="创建时间" property="created">
         <template slot-scope="scope">{{new Date(scope.row.created).format('yyyy/MM/dd hh:mm')}}</template>
@@ -46,7 +46,7 @@ export default {
   methods: {
     async fetchData(page) {
       page = (page - 1) | 0;
-      const res = await this.$axios.$post("/article/list", {
+      const res = await this.$axios.$post("/admin/article/list", {
         page: page,
         size: this.limit
       });

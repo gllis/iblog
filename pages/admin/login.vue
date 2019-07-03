@@ -14,7 +14,6 @@
           @keyup.enter.native="handleSubmit">
         </el-input>
       </el-form-item>
-      <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
       <el-form-item style="width:100%;">
         <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">登录</el-button>
       </el-form-item>
@@ -26,13 +25,15 @@
 </template>
 
 <script>
+import { MD5 } from 'crypto-js'
+
 export default {
     data() {
       return {
         logining: false,
         loginForm: {
-          username: 'admin',
-          password: 'e10adc3949ba59abbe56e057f20f883e'
+          username: '',
+          password: ''
         },
         loginRules: {
           username: [
@@ -47,8 +48,8 @@ export default {
   },
   methods: {
     async handleSubmit() {
+      this.loginForm.password = MD5(this.loginForm.password.trim()).toString();
       const res = await this.$axios.$post("/login", {formData: this.loginForm});
-      console.info(res);
       if (res.errcode == 0) {
         sessionStorage.setItem('user', JSON.stringify(res.data));
         this.$router.push('/admin/article/publish');

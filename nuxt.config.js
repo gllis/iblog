@@ -5,14 +5,15 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'iBlog Admin',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://cdn.bootcss.com/element-ui/2.8.2/theme-chalk/index.css' }
     ]
   },
   /*
@@ -23,7 +24,6 @@ export default {
   ** Global CSS
   */
   css: [
-    'element-ui/lib/theme-chalk/index.css',
     "mavon-editor/dist/css/index.css"
   ],
   /*
@@ -47,7 +47,8 @@ export default {
   ** Build configuration
   */
   build: {
-    transpile: [/^element-ui/],
+    //transpile: [/^element-ui/],
+    
     /*
     ** You can extend webpack config here
     */

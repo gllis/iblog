@@ -3,18 +3,18 @@ import qs from 'qs';
 export default function ({ $axios, app, redirect }) {
     $axios.onRequest(config => {
       let token = app.$cookies.get('token');
-      if (!token) {
-        redirect('/admin/login')
-      }
+      console.log('Making request to ' + config.url)
       // 如果是formData有值，修改为表单提交
       if (config.data && config.data.formData) {
         config.data = qs.stringify(config.data.formData);
       }
       config.baseURL = "http://localhost:8080";
+      if (config.url == '/article/list' || config.url == '/category/list' || config.url == '/tag/list') {
+        return;
+      }
       if (token) {
         config.headers.Authorization = token;
       }
-      console.log('Making request to ' + config.url)
     })
   
     $axios.onResponse(response => {
