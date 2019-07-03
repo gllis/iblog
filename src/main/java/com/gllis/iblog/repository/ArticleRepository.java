@@ -2,6 +2,7 @@ package com.gllis.iblog.repository;
 
 import com.gllis.iblog.model.Article;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.repository.CountQuery;
 import org.springframework.data.mongodb.repository.DeleteQuery;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
@@ -19,14 +20,23 @@ import reactor.core.publisher.Mono;
 public interface ArticleRepository extends ReactiveMongoRepository<Article, String> {
 
     /**
-     * 按分类查换文章
+     * 按标签查换文章
      *
-     * @param category
+     * @param tag
      * @param pageable
      * @return
      */
-    @Query(value = "{'category.id' : ?0}", sort = "{ _id : -1 }")
-    Flux<Article> find(String category, Pageable pageable);
+    @Query(value = "{'tag.id' : ?0}", sort = "{ _id : -1 }")
+    Flux<Article> find(String tag, Pageable pageable);
+
+    /**
+     * 查找指定标签总条数
+     *
+     * @param tag
+     * @return
+     */
+    @CountQuery( "{'tag.id' : ?0}")
+    Mono<Long> count(String tag);
 
     /**
      * 查找所有文章

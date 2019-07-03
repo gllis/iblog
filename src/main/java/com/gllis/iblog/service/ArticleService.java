@@ -50,19 +50,18 @@ public class ArticleService {
      */
     public Mono<Result> getAll(Article article, Pageable pageable) {
 
-        return articleRepository.count().flatMap(c ->
-        {
-            // 根据分类搜索
-            if (article != null && article.getCategory() != null && !StringUtils.isEmpty(article.getCategory().getId())) {
-                return articleRepository.find(article.getCategory().getId(), pageable).collectList().flatMap(data
-                        -> Mono.just(new Result(c.intValue(), data)));
-            } else {
-                return articleRepository.find(pageable).collectList().flatMap(data
-                        -> Mono.just(new Result(c.intValue(), data)));
-            }
-        });
+        if (article != null && article.getTag() != null && !StringUtils.isEmpty(article.getTag().getId())) {
+            return articleRepository.count(article.getTag().getId()).flatMap(c ->
+                    articleRepository.find(article.getTag().getId(), pageable).collectList().flatMap(data
+                            -> Mono.just(new Result(c.intValue(), data)))
+            );
+        } else {
+            return articleRepository.count().flatMap(c ->
+                    articleRepository.find(pageable).collectList().flatMap(data
+                            -> Mono.just(new Result(c.intValue(), data)))
+            );
+        }
     }
-
 
 
     /**

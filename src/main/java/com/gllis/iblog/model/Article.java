@@ -43,17 +43,24 @@ public class Article {
      */
     private String content_html;
 
+
     /**
      * 标签
      */
     @DBRef
-    private List<Tag> tags;
+    private Tag tag;
 
-    /**
-     * 分类
-     */
-    @DBRef
-    private Category category;
+//    /**
+//     * 标签
+//     */
+//    @DBRef
+//    private List<Tag> tags;
+//
+//    /**
+//     * 分类
+//     */
+//    @DBRef
+//    private Category category;
 
     /**
      * 创建时间

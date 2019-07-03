@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
  * @created 2019/5/31.
  */
 @RestController
-@RequestMapping("/tag/")
+@RequestMapping({"/tag/", "/admin/tag/"})
 public class TagController {
 
     @Autowired
