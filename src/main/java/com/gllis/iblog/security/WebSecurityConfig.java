@@ -44,6 +44,8 @@ public class WebSecurityConfig {
                 .authorizeExchange()
                 .pathMatchers("/article/list").permitAll()
                 .pathMatchers("/article/get").permitAll()
+                .pathMatchers("/comment/list").permitAll()
+                .pathMatchers("/comment/save").permitAll()
                 .pathMatchers("/category/list").permitAll()
                 .pathMatchers("/tag/list").permitAll()
                 .anyExchange().authenticated()

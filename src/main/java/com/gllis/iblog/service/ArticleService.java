@@ -48,11 +48,11 @@ public class ArticleService {
      *
      * @return
      */
-    public Mono<Result> getAll(Article article, Pageable pageable) {
+    public Mono<Result> getAll(String tag, Pageable pageable) {
 
-        if (article != null && article.getTag() != null && !StringUtils.isEmpty(article.getTag().getId())) {
-            return articleRepository.count(article.getTag().getId()).flatMap(c ->
-                    articleRepository.find(article.getTag().getId(), pageable).collectList().flatMap(data
+        if (!StringUtils.isEmpty(tag)) {
+            return articleRepository.count(tag).flatMap(c ->
+                    articleRepository.find(tag, pageable).collectList().flatMap(data
                             -> Mono.just(new Result(c.intValue(), data)))
             );
         } else {

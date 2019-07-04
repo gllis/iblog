@@ -52,7 +52,7 @@ public class ArticleController {
      * @return
      */
     @ReqMapper("list")
-    public Mono<Result> list(@RequestBody PageVo<Article> pageVo) {
+    public Mono<Result> list(@RequestBody PageVo<String> pageVo) {
         Pageable pageable = PageRequest.of(pageVo.getPage(), pageVo.getSize());
         return articleService.getAll(pageVo.getObj(), pageable);
     }

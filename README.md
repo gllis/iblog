@@ -10,7 +10,9 @@ MongoDB >= v3.6.3
 
 * springboot 2.1.x webflux  
 * jwt鉴权  
-* mongodb  
+* mongodb 
+
+# 前端UI源码 [iblog-web](https://github.com/gllis/iblog-web)
 
 # 使用前准备
 暂时不支持后台修改用户名，后续会增加。所以需要准备工作如下：  
@@ -18,7 +20,7 @@ MongoDB >= v3.6.3
 $ use iblog  
 
 >插入登录用户名及密码 
-$ db.users.insert({name:'demo',password:'14e1b600b1fd579f47433b88e8d85291'})
+$ db.user.insert({name:'demo',password:'14e1b600b1fd579f47433b88e8d85291'})
 
 >用户名及密码登录  
 用户名：demo  

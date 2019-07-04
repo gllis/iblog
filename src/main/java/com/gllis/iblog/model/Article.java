@@ -50,17 +50,6 @@ public class Article {
     @DBRef
     private Tag tag;
 
-//    /**
-//     * 标签
-//     */
-//    @DBRef
-//    private List<Tag> tags;
-//
-//    /**
-//     * 分类
-//     */
-//    @DBRef
-//    private Category category;
 
     /**
      * 创建时间
