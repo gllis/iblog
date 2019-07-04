@@ -19,8 +19,8 @@
         </el-table>
       </el-col>
       <el-col :span="6">
-        <el-form>
-          <el-form-item label="标签">
+        <el-form :model="entity" :rules="rules" ref="submitForm">
+          <el-form-item label="标签" prop="name">
             <el-input v-model="entity.name"></el-input>
           </el-form-item>
           <el-form-item>
@@ -39,6 +39,9 @@ export default {
       list: [],
       entity: {
         name: ""
+      },
+      rules: {
+        name: [{ required: true, message: "请输入标签", trigger: "blur" }],
       }
     };
   },
@@ -51,6 +54,13 @@ export default {
       this.list = res.data;
     },
     async submitForm() {
+      let isValid = false;
+      this.$refs['submitForm'].validate((valid) => {
+          isValid = valid;
+      });
+      if (!isValid) {
+        return;
+      }
       const res = await this.$axios.$post("/tag/save", this.entity);
       if (res.errcode == 0) {
         this.fetchData();

@@ -4,12 +4,26 @@
     <div class="ui-content">
       <div class="ui-title">
         <div>{{ title }}</div>
-        <div
-          class="ui-time"
-        >发布时间：{{ new Date(data.created).format('yyyy年MM月dd日')}} <span v-if="data.tag">标签：{{ data.tag.name }}</span></div>
+        <div class="ui-time">发布时间：{{ new Date(data.created).format('yyyy年MM月dd日')}} <span v-if="data.tag">标签：{{ data.tag.name }}</span></div>
       </div>
-
       <div class="md markdown-body" v-html="data.content_html"></div>
+      <div class="ui-comment">
+        <el-form :model="entity" :rules="rules" ref="submitForm">
+          <el-form-item label prop="nick_name">
+            <el-input v-model="entity.nick_name" placeholder="昵称"></el-input>
+          </el-form-item>
+          <el-form-item label prop="content">
+            <el-input type="textarea" :autosize="{ minRows: 6, maxRows: 8}" v-model="entity.content" placeholder="What do you think about"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">发表评论</el-button>
+          </el-form-item> 
+        </el-form> 
+      </div>
+      <div class="ui-last-comment" v-for="item in comments" :key="item.id">
+        <div class="title">{{item.nick_name}} <span class="time">{{new Date(data.created).format('yyyy.MM.dd hh:mm')}}</span></div>
+        <div class="content">{{item.content}}</div>
+      </div>
     </div>
     <Footer/>
   </div>
@@ -21,6 +35,19 @@ import Hearder from "~/components/Hearder.vue";
 export default {
   components: {
     Hearder
+  },
+  data() {
+    return {
+      entity: {
+        nick_name: '',
+        content: ''
+      },
+      rules: {
+        nick_name: [{ required: true, message: "请输入昵称", trigger: "blur" }],
+        content: [{ required: true, message: "请输入评论内容", trigger: "blur" }],
+      },
+      comments: []
+    }
   },
   async asyncData({ $axios, params }) {
     let res = await $axios.$get("/article/get", {
@@ -49,6 +76,41 @@ export default {
           "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"
       }
     ]
+    }
+  },
+  created() {
+    this.getComments();
+  },
+  methods: {
+    async getComments() {
+      let res = await this.$axios.$get('/comment/list', {
+        params: { articleId: this.data.id }
+      });
+      this.comments = res.data;
+    },
+    async onSubmit() {
+      let isValid = false;
+      this.$refs['submitForm'].validate((valid) => {
+          isValid = valid;
+      });
+      if (!isValid) {
+        return;
+      }
+      this.entity['article_id'] = this.data.id;
+      const res = await this.$axios.$post("/comment/save", this.entity);
+      if (res && res.errcode == 0) {
+        this.getComments();
+        this.$notify({
+            title: '评论成功',
+            message: '发表成功',
+            type: 'success'
+        });
+    
+        this.entity = {
+          nick_name: '',
+          content: ''
+        }
+      }
     }
   }
   
@@ -87,5 +149,32 @@ export default {
       padding: 8px;
     }
   }
+  .ui-comment {
+    margin-top: 40px;
+    @media screen and (max-width: 800px) {
+      padding: 10px;
+    }
+  }
+  .ui-last-comment {
+    padding: 10px 0px;
+    @media screen and (max-width: 800px) {
+      padding: 10px;
+    }
+    .title {
+      color: #ff0000;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .time {
+      font-size: 12px;
+      color: #666666;
+      padding-left: 10px;
+    }
+    .content {
+      font-size: 14px;
+      padding: 5px 0px;
+    }
+  }
 }
+
 </style>

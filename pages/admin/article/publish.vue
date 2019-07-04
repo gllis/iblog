@@ -20,8 +20,7 @@
             :toolbars="markdownOption"
             @change="getData"
             @imgAdd="imgAdd"
-            v-model="entity.content"
-          />
+            v-model="entity.content" />
         </no-ssr>
       </el-form-item>
       <el-form-item size="large">
@@ -94,6 +93,10 @@ export default {
       }
       const res = await this.$axios.$post("/article/save", this.entity);
       if (res && res.errcode == 0) {
+        this.entity = {
+          content: "",
+          tag: { id: "" }
+        }
         this.$notify({
             title: '发布结果',
             message: '发布文章成功',

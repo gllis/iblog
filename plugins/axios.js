@@ -9,7 +9,9 @@ export default function ({ $axios, app, redirect }) {
         config.data = qs.stringify(config.data.formData);
       }
       config.baseURL = "http://localhost:8080";
-      if (config.url == '/article/list' || config.url == '/category/list' || config.url == '/tag/list') {
+      // 白名单URL，不需要鉴权
+      if (config.url == '/article/list' || config.url == '/category/list' || config.url == '/tag/list' 
+          || config.url == '/comment/list' || config.url == '/comment/save') {
         return;
       }
       if (token) {
@@ -21,7 +23,6 @@ export default function ({ $axios, app, redirect }) {
       
       // 返回消息头中有auth信息时，缓存到cookie中
       if (response.headers.authorization) {
-        console.info(response.headers.authorization);
         app.$cookies.set('token', response.headers.authorization, {
           path: '/',
           maxAge: 60 * 60 * 24 * 7

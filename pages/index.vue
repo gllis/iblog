@@ -3,7 +3,7 @@
     <Hearder/>
     <div class="ui-content">
       <el-row>
-        <el-col class="ui-article-view" :span="16" v-loading="loading" :class="{ pt: loading }">
+        <el-col class="ui-article-view" :span="15" v-loading="loading" :class="{ pt: loading }">
           <div v-for="item in list" :key="item.id" class="ui-article" @click="goArticle(item.id)">
             <div class="ui-title">{{item.title}}</div>
             <div class="ui-time"><i class="el-icon-date"></i>{{new Date(item.created).format('yyyy年MM月dd日')}}</div>
@@ -90,7 +90,7 @@ export default {
       if (this.tag) {
         this.tags.data.forEach(e => {
           if (e.name == this.tag) {
-            params['obj'] = {tag: {id: e.id}};
+            params['obj'] = e.id;
             return;
           }
         });
@@ -119,7 +119,7 @@ export default {
   background-color: #f5f6f7;
 }
 
-.el-col-16 {
+.el-col-15 {
     @media screen and (max-width: 800px) {
       width: 100%;
     }
