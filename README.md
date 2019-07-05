@@ -6,7 +6,7 @@
 ### 接口源码: [iblog-api](https://github.com/gllis/iblog-api)
 
 ## 修改接口域名地址
-> 进入plugins/axios.js 将config.baseURL = "http://localhost:8080";修改为自己的后端接口地址
+> 进入plugins/axios.js 将 config.baseURL = "http://localhost:8080"  修改为自己的后端接口地址
 
 ## 构建
 ``` bash

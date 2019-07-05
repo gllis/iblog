@@ -4,10 +4,12 @@
     <div class="ui-content">
       <el-row>
         <el-col class="ui-article-view" :span="15" v-loading="loading" :class="{ pt: loading }">
-          <div v-for="item in list" :key="item.id" class="ui-article" @click="goArticle(item.id)">
-            <div class="ui-title">{{item.title}}</div>
-            <div class="ui-time"><i class="el-icon-date"></i>{{new Date(item.created).format('yyyy年MM月dd日')}}</div>
-            <div class="ui-summary">{{item.summary}}</div>
+          <div v-for="item in list" :key="item.id" class="ui-article">
+            <nuxt-link :to="'/p/' + item.id">
+              <div class="ui-title">{{item.title}}</div>
+              <div class="ui-time"><i class="el-icon-date"></i>{{new Date(item.created).format('yyyy年MM月dd日')}}</div>
+              <div class="ui-summary">{{item.summary}}</div>
+            </nuxt-link>
           </div>
           <el-pagination
             v-if="!loading && total > 0"
@@ -28,7 +30,9 @@
             </div>
           </div>
           <div class="ui-tags">
-            <el-tag @click="goTag(item.name)" v-for="item in tags.data" :key="item.id" :type="comsys.type()">{{ item.name }}</el-tag>
+            <el-tag v-for="item in tags.data" :key="item.id" :type="comsys.type()">
+              <nuxt-link :to="item.name">{{ item.name }}</nuxt-link>
+            </el-tag>
           </div>
         </el-col>
       </el-row>
@@ -66,19 +70,26 @@ export default {
   },
   data() {
     return {
-      loading: true,
-      total: 0,
-      limit: 6,
-      list: []
+      loading: false,
+      limit: 6
     };
   },
-  async asyncData({ $axios, params, query }) {
+  async asyncData({ $axios, params }) {
     const tag = params.tag;
     const tags = await $axios.$get("/tag/list");
-    return { tag, tags };
-  },
-  created() {
-    this.fetchData();
+    let para = { page: 0, size: 6}
+    if (tag) {
+      tags.data.forEach(e => {
+        if (e.name == tag) {
+          para['obj'] = e.id;
+          return;
+        }
+      });
+    }
+    const res = await $axios.$post("/article/list", para);
+    const list = res.data;
+    const total = res.total;
+    return { tag, tags, list, total };
   },
   methods: {
     async fetchData(page) {
@@ -96,18 +107,8 @@ export default {
         });
       }
       const res = await this.$axios.$post("/article/list", params);
-      this.loading = false;
       this.list = res.data;
       this.total = res.total;
-    },
-    goCategory(category) {
-      this.$router.push(`/${category}`);
-    },
-    goTag(tag) {
-      this.$router.push(`/${tag}`);
-    },
-    goArticle(id) {
-      this.$router.push(`/p/${id}`);
     }
   }
 };
@@ -146,6 +147,10 @@ export default {
   line-height: 30px;
   background-color: #ffffff;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
   cursor: pointer;
   .ui-title {
     font-weight: bold;
@@ -173,6 +178,10 @@ export default {
   border-radius: 4px;
   line-height: 44px;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
   @media screen and (max-width: 800px) {
     display: none;
   }
