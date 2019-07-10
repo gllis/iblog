@@ -24,7 +24,11 @@ import {
   Main,
   Footer,
   Loading,
-  Notification
+  Notification,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  Dialog
 } from 'element-ui';
 
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
@@ -51,6 +55,10 @@ Vue.use(Header);
 Vue.use(Aside);
 Vue.use(Main);
 Vue.use(Footer);
+Vue.use(Dropdown);
+Vue.use(DropdownMenu);
+Vue.use(DropdownItem);
+Vue.use(Dialog);
 
 
 Vue.use(Loading.directive);

@@ -53,6 +53,12 @@ export default {
       if (res.errcode == 0) {
         sessionStorage.setItem('user', JSON.stringify(res.data));
         this.$router.push('/admin/article/publish');
+      } else {
+        this.$notify({
+            title: '操作提示',
+            message: '登录失败！',
+            type: 'error'
+        });
       }
     }
   }
