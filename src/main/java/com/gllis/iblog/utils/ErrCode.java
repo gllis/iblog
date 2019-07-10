@@ -24,6 +24,7 @@ public class ErrCode {
      * 密码错误
      */
     public static final int AUTH_FAIL = 4002;
+    public static final String AUTH_FAIL_MSG = "Auth fail!";
     /**
      * 权限不足
      */

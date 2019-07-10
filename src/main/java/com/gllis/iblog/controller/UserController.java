@@ -1,8 +1,12 @@
 package com.gllis.iblog.controller;
 
+import com.gllis.iblog.model.ModifyPwd;
+import com.gllis.iblog.model.Result;
 import com.gllis.iblog.model.User;
 import com.gllis.iblog.repository.UserRepository;
+import com.gllis.iblog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +24,7 @@ import reactor.core.publisher.Mono;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     /**
      * 保存用户信息
@@ -28,9 +32,20 @@ public class UserController {
      * @param user
      * @return
      */
-    @RequestMapping("save")
-    public Mono<User> save(@RequestBody User user) {
-        return userRepository.save(user);
+    @PostMapping("save")
+    public Mono<Result> save(@RequestBody User user) {
+        return userService.save(user);
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param req
+     * @return
+     */
+    @PostMapping("modifyPwd")
+    public Mono<Result> modifyPwd(@RequestBody ModifyPwd req) {
+        return userService.modifyPwd(req);
     }
 
 
