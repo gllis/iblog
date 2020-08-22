@@ -1,6 +1,6 @@
 package com.gllis.iblog.repository;
 
-import com.gllis.iblog.model.User;
+import com.gllis.iblog.model.db.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;

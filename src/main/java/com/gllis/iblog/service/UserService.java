@@ -2,10 +2,9 @@ package com.gllis.iblog.service;
 
 import com.gllis.iblog.model.ModifyPwd;
 import com.gllis.iblog.model.Result;
-import com.gllis.iblog.model.User;
+import com.gllis.iblog.model.db.User;
 import com.gllis.iblog.repository.UserRepository;
 import com.gllis.iblog.utils.ErrCode;
-import com.sun.javaws.exceptions.ErrorCodeResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;

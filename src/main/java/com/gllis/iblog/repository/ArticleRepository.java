@@ -1,6 +1,6 @@
 package com.gllis.iblog.repository;
 
-import com.gllis.iblog.model.Article;
+import com.gllis.iblog.model.db.Article;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.CountQuery;
 import org.springframework.data.mongodb.repository.DeleteQuery;

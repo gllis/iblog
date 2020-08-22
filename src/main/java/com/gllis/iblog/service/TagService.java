@@ -1,7 +1,7 @@
 package com.gllis.iblog.service;
 
 import com.gllis.iblog.model.Result;
-import com.gllis.iblog.model.Tag;
+import com.gllis.iblog.model.db.Tag;
 import com.gllis.iblog.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

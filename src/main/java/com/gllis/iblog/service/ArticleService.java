@@ -1,6 +1,6 @@
 package com.gllis.iblog.service;
 
-import com.gllis.iblog.model.Article;
+import com.gllis.iblog.model.db.Article;
 import com.gllis.iblog.model.Result;
 import com.gllis.iblog.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

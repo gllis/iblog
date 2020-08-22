@@ -1,7 +1,7 @@
 package com.gllis.iblog.repository;
 
 
-import com.gllis.iblog.model.Comment;
+import com.gllis.iblog.model.db.Comment;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;

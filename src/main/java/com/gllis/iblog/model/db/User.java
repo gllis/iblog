@@ -1,4 +1,4 @@
-package com.gllis.iblog.model;
+package com.gllis.iblog.model.db;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

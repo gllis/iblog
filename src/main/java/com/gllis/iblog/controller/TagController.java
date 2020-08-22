@@ -2,10 +2,14 @@ package com.gllis.iblog.controller;
 
 import com.gllis.iblog.annotation.ReqMapper;
 import com.gllis.iblog.model.Result;
-import com.gllis.iblog.model.Tag;
+import com.gllis.iblog.model.db.Tag;
 import com.gllis.iblog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 /**

@@ -1,16 +1,11 @@
 package com.gllis.iblog;
 
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.convert.CustomConversions;
-import org.springframework.data.mongodb.MongoDbFactory;
-import org.springframework.data.mongodb.core.convert.DbRefResolver;
-import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
-import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
 
 /**
@@ -21,21 +16,16 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
  * @created 2019/6/5.
  */
 @Configuration
-public class MongoConfig {
- 
-    @Bean
-    public MappingMongoConverter mappingMongoConverter(MongoDbFactory factory, MongoMappingContext context, BeanFactory beanFactory) {
-        DbRefResolver dbRefResolver = new DefaultDbRefResolver(factory);
-        MappingMongoConverter mappingConverter = new MappingMongoConverter(dbRefResolver, context);
-        try {
-            mappingConverter.setCustomConversions(beanFactory.getBean(CustomConversions.class));
-        } catch (NoSuchBeanDefinitionException ignore) {
-        }
- 
+public class MongoConfig implements InitializingBean {
+
+    @Autowired
+    @Lazy
+    private MappingMongoConverter mappingMongoConverter;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
         // Don't save _class to mongo
-        mappingConverter.setTypeMapper(new DefaultMongoTypeMapper(null));
- 
-        return mappingConverter;
+        mappingMongoConverter.setTypeMapper(new DefaultMongoTypeMapper(null));
     }
- 
+
 }

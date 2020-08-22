@@ -1,4 +1,4 @@
-package com.gllis.iblog.model;
+package com.gllis.iblog.model.db;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -24,6 +24,11 @@ public class Tag {
      * 标签名称
      */
     private String name;
+
+    /**
+     * 标签背景色
+     */
+    private String color;
 
     /**
      * 创建时间

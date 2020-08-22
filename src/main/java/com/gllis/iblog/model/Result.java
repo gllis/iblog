@@ -30,6 +30,9 @@ public class Result {
      */
     private Object data;
 
+    /**
+     * 错误信息
+     */
     private String errmsg = "ok";
 
 

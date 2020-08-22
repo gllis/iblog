@@ -2,8 +2,7 @@ package com.gllis.iblog.controller;
 
 import com.gllis.iblog.model.ModifyPwd;
 import com.gllis.iblog.model.Result;
-import com.gllis.iblog.model.User;
-import com.gllis.iblog.repository.UserRepository;
+import com.gllis.iblog.model.db.User;
 import com.gllis.iblog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

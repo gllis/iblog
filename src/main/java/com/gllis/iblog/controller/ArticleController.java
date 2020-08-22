@@ -1,14 +1,18 @@
 package com.gllis.iblog.controller;
 
 import com.gllis.iblog.annotation.ReqMapper;
-import com.gllis.iblog.model.Article;
 import com.gllis.iblog.model.PageVo;
 import com.gllis.iblog.model.Result;
+import com.gllis.iblog.model.db.Article;
 import com.gllis.iblog.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 /**
@@ -57,6 +61,12 @@ public class ArticleController {
         return articleService.getAll(pageVo.getObj(), pageable);
     }
 
+    /**
+     * 获取指定文章内容
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("get")
     public Mono<Result> get(String id) {
         return articleService.get(id);

@@ -1,7 +1,7 @@
 package com.gllis.iblog.controller;
 
 
-import com.gllis.iblog.model.Comment;
+import com.gllis.iblog.model.db.Comment;
 import com.gllis.iblog.model.Result;
 import com.gllis.iblog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;

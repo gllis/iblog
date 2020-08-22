@@ -1,6 +1,6 @@
 package com.gllis.iblog.repository;
 
-import com.gllis.iblog.model.Tag;
+import com.gllis.iblog.model.db.Tag;
 import org.springframework.data.mongodb.repository.DeleteQuery;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
