@@ -20,6 +20,10 @@
         <el-container class="ui-container">
             <el-aside width="200px">
                 <el-menu :default-active="$route.path" @select="selectMenu">
+                    <el-menu-item index="/admin/setting">
+                        <i class="el-icon-setting"></i>
+                        <span slot="title">网站设置</span>
+                    </el-menu-item>
                     <el-menu-item index="/admin/article/publish">
                         <i class="el-icon-edit-outline"></i>
                         <span slot="title">发布文章</span>
@@ -29,7 +33,7 @@
                         <span slot="title">文章列表</span>
                     </el-menu-item>
                     <el-menu-item index="/admin/tag">
-                        <i class="el-icon-setting"></i>
+                        <i class="el-icon-collection-tag"></i>
                         <span slot="title">标签</span>
                     </el-menu-item>
                 </el-menu>

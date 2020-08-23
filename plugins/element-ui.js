@@ -28,7 +28,8 @@ import {
   Dropdown,
   DropdownMenu,
   DropdownItem,
-  Dialog
+  Dialog,
+  ColorPicker
 } from 'element-ui';
 
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
@@ -59,6 +60,7 @@ Vue.use(Dropdown);
 Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
 Vue.use(Dialog);
+Vue.use(ColorPicker);
 
 
 Vue.use(Loading.directive);

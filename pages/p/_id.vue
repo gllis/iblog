@@ -31,7 +31,6 @@
 
 <script>
 import Hearder from "~/components/Hearder.vue";
-
 export default {
   components: {
     Hearder
@@ -62,24 +61,41 @@ export default {
     return {
       title: this.title,
       meta: [
-        { hid: 'description', name: 'description', content:this.desc }
+        { hid: 'description', name: 'description', content: this.desc }
       ],
       link: [
-      {
-        rel: "stylesheet",
-        href:
-          "https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css"
-      },
-      {
-        rel: "stylesheet",
-        href:
-          "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"
-      }
-    ]
+        {
+          rel: "stylesheet",
+          href:
+            "https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css"
+        },
+        {
+          rel: "stylesheet",
+          href:
+            "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"
+        }
+      ],
+      script: [
+        {
+          src: 'https://cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js'
+        },
+        {
+          src: 'https://cdn.bootcss.com/highlightjs-line-numbers.js/1.1.0/highlightjs-line-numbers.min.js'
+        }
+      ],
     }
   },
   created() {
     this.getComments();
+  },
+  mounted() {
+    if (hljs) {
+      try {
+        hljs.initHighlightingOnLoad();
+        hljs.initLineNumbersOnLoad();
+      } catch (error) {
+      }
+    }
   },
   methods: {
     async getComments() {
@@ -116,7 +132,6 @@ export default {
   
 };
 </script>
-
 <style lang="scss" scoped>
 .container {
   margin: 0 auto;
@@ -176,5 +191,6 @@ export default {
     }
   }
 }
+
 
 </style>

@@ -4,7 +4,11 @@
       <el-col :span="16">
         <el-table :data="list">
           <el-table-column type="index" width="50"></el-table-column>
-          <el-table-column label="标签" property="name"></el-table-column>
+          <el-table-column label="标签" property="name" width="150">
+            <template slot-scope="scope">
+              <el-tag effect="dark" :color="scope.row.color">{{scope.row.name}}</el-tag>
+            </template>
+          </el-table-column>
           <el-table-column label="操作">
              <template slot-scope="scope">
               <el-button
@@ -20,11 +24,21 @@
       </el-col>
       <el-col :span="6">
         <el-form :model="entity" :rules="rules" ref="submitForm">
-          <el-form-item label="标签" prop="name">
-            <el-input v-model="entity.name"></el-input>
+          <el-form-item prop="name">
+            <el-input placeholder="标签名" v-model="entity.name"></el-input>
+          </el-form-item>
+          <el-form-item prop="color">
+            <el-row>
+              <el-col :span="12">
+                <el-input readonly  placeholder="颜色" v-model="entity.color"></el-input>
+              </el-col>
+              <el-col :span="12">
+                &nbsp;<el-color-picker v-model="entity.color"></el-color-picker>
+              </el-col>
+            </el-row>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm()">立即创建</el-button>
+            <el-button type="primary" @click="submitForm()">创建/更新</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -38,10 +52,12 @@ export default {
     return {
       list: [],
       entity: {
-        name: ""
+        name: "",
+        color: ""
       },
       rules: {
         name: [{ required: true, message: "请输入标签", trigger: "blur" }],
+        color: [{ required: true, message: "请选择颜色", trigger: "blur" }],
       }
     };
   },
@@ -67,14 +83,12 @@ export default {
       }
     },
     async remove(id) {
-      console.info(id);
       const res = await this.$axios.$get('/tag/remove', {params: {id: id}});
       if (res.errcode == 0) {
         this.fetchData();
       }
     },
     handleEdit(row) {
-      console.info(row);
       this.entity = row;
     }
   }
@@ -84,6 +98,9 @@ export default {
 <style scoped>
 .el-form {
   margin-left: 22px;
+}
+.el-tag {
+  color: #ffffff;
 }
 </style>
 

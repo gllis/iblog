@@ -5,11 +5,11 @@
       <el-row>
         <el-col class="ui-article-view" :span="15" v-loading="loading" :class="{ pt: loading }">
           <div v-for="item in list" :key="item.id" class="ui-article">
-            <nuxt-link :to="'/p/' + item.id">
+            <a :href="'/p/' + item.id">
               <div class="ui-title">{{item.title}}</div>
               <div class="ui-time"><i class="el-icon-date"></i>{{new Date(item.created).format('yyyy年MM月dd日')}}</div>
               <div class="ui-summary">{{item.summary}}</div>
-            </nuxt-link>
+            </a>
           </div>
           <el-pagination
             v-if="!loading && total > 0"
@@ -22,15 +22,15 @@
         </el-col>
         <el-col :span="8">
           <div class="ui-tags ui-about">
-            <div class="title">About Me</div>
+            <div class="title">博主简介</div>
             <div class="content">
-              <p>网名：GL</p> 
-              <p>职业：全栈工程师</p> 
-              <p>邮箱：admin@gllis.com</p>
+              <p>网名：{{website.author}}</p> 
+              <p>职业：{{website.job}}</p> 
+              <p>邮箱：{{website.mail}}</p>
             </div>
           </div>
           <div class="ui-tags">
-            <el-tag v-for="item in tags.data" :key="item.id" :type="comsys.type()">
+            <el-tag v-for="item in tags.data" :key="item.id" :color="item.color">
               <nuxt-link :to="item.name">{{ item.name }}</nuxt-link>
             </el-tag>
           </div>
@@ -50,23 +50,23 @@ export default {
     Hearder,
     Footer
   },
-  head: {
-    title: "GL的个人博客",
-    meta: [
-      {
-        hid: "description",
-        name: "description",
-        content:
-          "GL个人博客，是一个记录博主学习和成长的自媒体博客。关注于全栈技术的学习研究。"
-      },
-      {
-        hid: "keywords",
-        name: "keywords",
-        content:
-          "GL,互联网,自媒体,GL博客,新鲜科技,科技博客,独立博客,个人博客,原创博客,全栈,全栈开发"
-      },
-      { hid: "author", content: "GL" }
-    ],
+  head() {
+    return {
+      title: this.website.name,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.website.description
+        },
+        {
+          hid: "keywords",
+          name: "keywords",
+          content: this.website.keywords
+        },
+        { hid: "author", content: this.website.author }
+      ]
+    }
   },
   data() {
     return {
@@ -86,10 +86,22 @@ export default {
         }
       });
     }
+    const info = await $axios.$get("/sys/get/info");
     const res = await $axios.$post("/article/list", para);
     const list = res.data;
     const total = res.total;
-    return { tag, tags, list, total };
+    if (info.data == undefined) {
+      info.data = {
+        name: "",
+        description: "",
+        keywords: "",
+        author: "",
+        job: "",
+        mail: ""
+      }
+    }
+    const website = info.data;
+    return { website, tag, tags, list, total};
   },
   methods: {
     async fetchData(page) {
@@ -189,6 +201,7 @@ export default {
 .el-tag {
   margin-right: 10px;
   cursor: pointer;
+  color: #ffffff;
 }
 .ui-about {
   .title {

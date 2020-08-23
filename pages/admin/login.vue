@@ -1,14 +1,14 @@
 <template>
   <el-container>
-    <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px" class="login-container">
+    <el-form :model="entity" :rules="rules" ref="loginForm" label-position="left" label-width="0px" class="login-container">
       <h3 class="title">iBlog-admin</h3>
-      <el-form-item prop="account" class="form-item">
-        <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号"></el-input>
+      <el-form-item prop="username" class="form-item">
+        <el-input type="text" v-model="entity.username" auto-complete="off" placeholder="账号"></el-input>
       </el-form-item>
-      <el-form-item prop="checkPass" class="form-item">
+      <el-form-item prop="password" class="form-item">
         <el-input
           type="password"
-          v-model="loginForm.password"
+          v-model="entity.password"
           auto-complete="off"
           placeholder="密码"
           @keyup.enter.native="handleSubmit">
@@ -31,11 +31,11 @@ export default {
     data() {
       return {
         logining: false,
-        loginForm: {
+        entity: {
           username: '',
           password: ''
         },
-        loginRules: {
+        rules: {
           username: [
             { required: true, message: '请输入账号', trigger: 'blur' },
           ],
@@ -48,8 +48,16 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      this.loginForm.password = MD5(this.loginForm.password.trim()).toString();
-      const res = await this.$axios.$post("/login", {formData: this.loginForm});
+      let isValid = false;
+      this.$refs['loginForm'].validate((valid) => {
+          isValid = valid;
+      });
+      if (!isValid) {
+        return;
+      }
+      console.info(this.entity)
+      this.entity.password = MD5(this.entity.password.trim()).toString();
+      const res = await this.$axios.$post("/login", {formData: this.entity});
       if (res.errcode == 0) {
         sessionStorage.setItem('user', JSON.stringify(res.data));
         this.$router.push('/admin/article/publish');

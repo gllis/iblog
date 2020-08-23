@@ -20,5 +20,17 @@ body {
   margin: 0px;
 }
 
-
+.hljs-line-numbers {
+    text-align: right;
+    border-right: 1px solid #ccc !important;
+    margin-right: 10px !important;
+    padding-right: 5px !important;
+    color: #999;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 </style>
