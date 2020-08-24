@@ -1,6 +1,7 @@
 package com.gllis.iblog.security;
 
 
+import com.gllis.iblog.model.db.User;
 import com.gllis.iblog.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,30 +36,34 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {
 
-
         return Mono.just(authentication)
                 .publishOn(Schedulers.parallel())
                 .flatMap(token -> {
-                    try {
-                        log.info("开始查询用户信息");
-                        return userService.getByName(token.getName()).flatMap( user -> {
-                            String password = DigestUtils.md5DigestAsHex(token.getCredentials().toString().getBytes());
-                            if (user != null && password.equals(user.getPassword())) {
-                                List<GrantedAuthority> authorities = new ArrayList<>();
-                                authorities.add(new SimpleGrantedAuthority(user.getRole()));
-                                Authentication auth = new UsernamePasswordAuthenticationToken(token.getName(), token.getCredentials(), authorities);
-                                return Mono.justOrEmpty(auth);
-                            } else {
-                                return Mono.error(new BadCredentialsException("Invalid Credentials"));
-                            }
+                    log.info("开始查询用户信息");
 
-                        });
+                    final User myUser = new User();
+                    return userService.getByName(token.getName())
+                            .flatMap(user -> {
+                                myUser.setName(user.getName());
+                                myUser.setPassword(user.getPassword());
+                                return Mono.empty();
+                            })
+                            .defaultIfEmpty(authentication) // 处理当user查询不到 flatMap无法进入的问题
+                            .flatMap(map -> {
+                                String password = DigestUtils.md5DigestAsHex(token.getCredentials().toString().getBytes());
+                                if (password.equals(myUser.getPassword())) {
+                                    List<GrantedAuthority> authorities = new ArrayList<>();
+                                    authorities.add(new SimpleGrantedAuthority(myUser.getRole()));
+                                    Authentication auth = new UsernamePasswordAuthenticationToken(token.getName(),
+                                            token.getCredentials(), authorities);
+                                    return Mono.justOrEmpty(auth);
+                                } else {
+                                    return Mono.error(new BadCredentialsException("Invalid Credentials"));
+                                }
+                            });
 
-                    } catch (Throwable error) {
-                        return Mono.error(new BadCredentialsException("Invalid Credentials"));
-                    }
-                })
-                .filter(auth -> auth.isAuthenticated());
+                });
 
     }
+
 }

@@ -48,6 +48,7 @@ public class WebSecurityConfig {
                 .pathMatchers("/comment/save").permitAll()
                 .pathMatchers("/category/list").permitAll()
                 .pathMatchers("/tag/list").permitAll()
+                .pathMatchers("/sys/get/info").permitAll()
                 .anyExchange().authenticated()
                 .and()
                 .authenticationManager(authenticationManager)

@@ -24,6 +24,15 @@ public class SysConfigController {
     @Autowired
     private SysConfigService sysConfigService;
 
+    /**
+     * 获取网站配置信息
+     *
+     * @return
+     */
+    @GetMapping("get/info")
+    public Mono<Result> getInfo() {
+        return sysConfigService.get("blog-setting");
+    }
 
     /**
      * 获取指定系统配置
