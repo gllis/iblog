@@ -1,0 +1,28 @@
+{
+  "name": "iblog-web",
+  "version": "1.0.1",
+  "description": "A blog web ui",
+  "author": "GL",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.12.1",
+    "cookie-universal-nuxt": "^2.1.4",
+    "crypto-js": "^3.1.9-1",
+    "element-ui": "^2.13.2",
+    "highlightjs-line-numbers.js": "^2.8.0",
+    "mavon-editor": "^2.9.0",
+    "nuxt": "^2.14.3"
+  },
+  "devDependencies": {
+    "node-sass": "^4.14.1",
+    "nodemon": "^2.0.4",
+    "sass-loader": "^9.0.3",
+    "scss-loader": "0.0.1"
+  }
+}
