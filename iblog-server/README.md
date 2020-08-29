@@ -12,7 +12,6 @@ MongoDB >= v3.6.3
 * jwt鉴权  
 * mongodb 
 
-# 前端UI源码 [iblog-web](https://github.com/gllis/iblog-web)
 
 # 使用前准备
 暂时不支持后台修改用户名，后续会增加。所以需要准备工作如下：  
