@@ -13,14 +13,14 @@
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   .title {
     height: 60px;
-    width: 1024px;
+    width: 1126px;
     margin: auto;
     @media screen and (max-width: 800px) {
       width: 100%;
     }
     a {
       font-size: 35px;
-      color: #41b883;
+      color: #00b894;
       text-decoration: none;
       line-height: 60px;
       @media screen and (max-width: 800px) {

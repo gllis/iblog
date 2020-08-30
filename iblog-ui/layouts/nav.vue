@@ -7,7 +7,7 @@
                 <div class="ui-drop-menu">
                     <el-dropdown trigger="click">
                     <span class="el-dropdown-link">
-                        {{user.name}}<i class="el-icon-arrow-down el-icon--right"></i>
+                       {{user.name}}<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item @click.native="showModifyPwd">修改密码</el-dropdown-item>
@@ -145,7 +145,7 @@ export default {
         exit() {
             sessionStorage.removeItem('user');
             this.$cookies.remove('token');
-            this.$router.push('/admin');
+            this.$router.push('/admin/login');
         }
     }
 }
@@ -157,7 +157,7 @@ export default {
     line-height: 60px;
     .title {
         margin: auto;
-        width: 1306px;
+        width: 100%;
         line-height: 60px;
         font-weight: bold;
         a {
@@ -172,10 +172,12 @@ export default {
         }
     }
 }
-
+.ui-avatar  {
+   display: flex;
+}
 .ui-container {
     margin: auto;
-    width: 1306px;
+    width: 100%;
     min-height: 86vh;
     display: flex;
     justify-content: center;

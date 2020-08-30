@@ -5,9 +5,12 @@
       <el-row>
         <el-col class="ui-article-view" :span="15" v-loading="loading" :class="{ pt: loading }">
           <div v-for="item in list" :key="item.id" class="ui-article">
-            <a :href="'/p/' + item.id">
+            <a :href="'/p/' + item.id" target="_blank">
               <div class="ui-title">{{item.title}}</div>
-              <div class="ui-time"><i class="el-icon-date"></i>{{new Date(item.created).format('yyyy年MM月dd日')}}</div>
+              <div class="ui-time">
+                <i class="fa fa-clock" aria-hidden="true"></i>{{new Date(item.created).format('yyyy-MM-dd')}}
+                <i class="fa fa-tag" aria-hidden="true"></i>{{item.tag.name}}
+              </div>
               <div class="ui-summary">{{item.summary}}</div>
             </a>
           </div>
@@ -21,23 +24,28 @@
             @current-change="fetchData"></el-pagination>
         </el-col>
         <el-col :span="8">
-          <div class="ui-tags ui-about">
+          <div class="info-wrapper ui-about">
             <div class="title">博主简介</div>
             <div class="content">
               <p>网名：{{website.author}}</p> 
               <p>职业：{{website.job}}</p> 
               <p>邮箱：{{website.mail}}</p>
             </div>
-          </div>
-          <div class="ui-tags">
-            <el-tag v-for="item in tags.data" :key="item.id" :color="item.color">
-              <nuxt-link :to="item.name">{{ item.name }}</nuxt-link>
-            </el-tag>
+            <div>
+              <hr />
+              <i class="fa fa-tags" aria-hidden="true"></i>标签
+            </div>
+            <div class="ui-tag">
+              <el-tag v-for="item in tags.data" :key="item.id" :color="item.color">
+                <nuxt-link :to="item.name">{{ item.name }}</nuxt-link>
+              </el-tag>
+            </div>
           </div>
         </el-col>
       </el-row>
     </div>
     <Footer/>
+    <el-backtop></el-backtop>
   </div>
 </template>
 
@@ -65,6 +73,12 @@ export default {
           content: this.website.keywords
         },
         { hid: "author", content: this.website.author }
+      ],
+      link: [
+        {
+          rel: "stylesheet",
+          href: "https://cdn.bootcdn.net/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+        }
       ]
     }
   },
@@ -139,7 +153,7 @@ export default {
 }
 
 .ui-content {
-  width: 1024px;
+  width: 1126px;
   margin: 0 auto;
   transform: .3;
   @media screen and (max-width: 800px) {
@@ -165,13 +179,9 @@ export default {
   }
   cursor: pointer;
   .ui-title {
-    font-weight: bold;
     font-size: 1.5em;
-    color: #3d5064;
+    color: #00b894;
     padding: 8px auto;
-  }
-  .ui-time i {
-    padding-right: 6px;
   }
   .ui-time {
     color: #999999;
@@ -182,10 +192,10 @@ export default {
     white-space: nowrap;
   }
 }
-.ui-tags {
+.info-wrapper {
   margin: 10px;
   padding: 10px;
-  border: 1px solid #eeeeee;
+  border-top: 1px solid #eeeeee;
   background-color: #ffffff;
   border-radius: 4px;
   line-height: 44px;
@@ -202,6 +212,7 @@ export default {
   margin-right: 10px;
   cursor: pointer;
   color: #ffffff;
+  border: 0px;
 }
 .ui-about {
   .title {
@@ -237,6 +248,6 @@ export default {
 }
 .ui-pagination {
     text-align: center;
-    margin: 10px;
+    margin: 30px 10px;
 }
 </style>

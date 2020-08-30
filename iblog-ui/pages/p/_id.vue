@@ -16,7 +16,7 @@
             <el-input type="textarea" :autosize="{ minRows: 6, maxRows: 8}" v-model="entity.content" placeholder="What do you think about"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">发表评论</el-button>
+            <el-button type="success" @click="onSubmit">发表评论</el-button>
           </el-form-item> 
         </el-form> 
       </div>
@@ -26,6 +26,7 @@
       </div>
     </div>
     <Footer/>
+    <el-backtop></el-backtop>
   </div>
 </template>
 
@@ -137,8 +138,10 @@ export default {
   margin: 0 auto;
 }
 .ui-content {
-  width: 1024px;
+  width: 1126px;
   margin: 0 auto;
+  overflow: scroll;
+  height: 100%;
   @media screen and (max-width: 800px) {
     width: 100%;
   }
@@ -176,7 +179,7 @@ export default {
       padding: 10px;
     }
     .title {
-      color: #ff0000;
+      color: #00b894;
       font-size: 20px;
       font-weight: bold;
     }

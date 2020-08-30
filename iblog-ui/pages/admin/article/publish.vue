@@ -23,7 +23,7 @@
             v-model="entity.content" />
         </no-ssr>
       </el-form-item>
-      <el-form-item size="large">
+      <el-form-item>
         <el-button type="primary" @click="onSubmit">发布</el-button>
       </el-form-item>
     </el-form>
@@ -50,6 +50,7 @@ export default {
         imagelink: true, // 图片链接
         code: true, // code
         table: true, // 表格
+        fullscreen: true,
         readmodel: true, // 沉浸式阅读
         htmlcode: true // 展示html源码
       },
