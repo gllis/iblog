@@ -140,7 +140,7 @@ export default {
 .ui-content {
   width: 1126px;
   margin: 0 auto;
-  overflow: scroll;
+  overflow: auto;
   height: 100%;
   @media screen and (max-width: 800px) {
     width: 100%;

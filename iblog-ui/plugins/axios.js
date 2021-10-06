@@ -1,4 +1,5 @@
 import qs from 'qs';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED='0';
 
 export default function ({ $axios, app, redirect }) {
     $axios.onRequest(config => {

@@ -180,7 +180,7 @@ export default {
   cursor: pointer;
   .ui-title {
     font-size: 1.5em;
-    color: #00b894;
+    color: #333333;
     padding: 8px auto;
   }
   .ui-time {
