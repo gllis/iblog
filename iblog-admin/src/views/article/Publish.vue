@@ -1,5 +1,5 @@
 <template>
-	<el-form :model="formData" :rules="rules" ref="formRef" label-width="120px" >
+	<el-form :model="formData" :rules="rules" ref="formRef" label-width="120px">
 		<el-form-item :label="'标题'" prop="title">
 			<el-input v-model="formData.title" placeholder="标题"></el-input>
 		</el-form-item>
@@ -12,13 +12,41 @@
 			</el-select>
 		</el-form-item>
 		<el-form-item :label="'内容'">
-			<mavon-editor
-				ref="md"
-				:ishljs="true"
-				:toolbars="markdownOption"
-				@change="getData"
-				@imgAdd="imgAdd"
+			<md-editor
 				v-model="formData.content"
+				:toolbars="[
+					'bold',
+					'underline',
+					'italic',
+					'strikeThrough',
+					'-',
+					'title',
+					'sub',
+					'sup',
+					'quote',
+					'unorderedList',
+					'orderedList',
+					'-',
+					'codeRow',
+					'code',
+					'link',
+					'image',
+					'table',
+					0,
+					1,
+					'-',
+					'revoke',
+					'next',
+					'=',
+					'prettier',
+					'pageFullscreen',
+					'fullscreen',
+					'preview',
+					'htmlPreview',
+					'catalog',
+				]"
+				@upload-img="imgAdd"
+				@html-changed="getData"
 			/>
 		</el-form-item>
 		<el-form-item>
@@ -30,15 +58,20 @@
 <script lang="ts" setup>
 import { reactive, ref, onMounted, onUnmounted } from 'vue'
 import { useStore } from "vuex"
+import { ElMessage } from 'element-plus'
 import type { ElForm } from 'element-plus'
-import Apis from '~/api/article'
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
 import tagApis from '~/api/tag'
+import articleApis from '~/api/article'
+import { error } from 'console';
 
 const { state, dispatch } = useStore()
 
+
 type FormInstance = InstanceType<typeof ElForm>
 const formRef = ref<FormInstance>()
-const tableList = reactive([])
 const tags = reactive([])
 const formData = reactive({
 	title: '',
@@ -47,26 +80,7 @@ const formData = reactive({
 	content: '',
 	content_html: ''
 })
-const markdownOption = reactive({
-	bold: true, // 粗体
-	italic: true, // 斜体
-	header: true, // 标题
-	underline: true, // 下划线
-	strikethrough: true, // 中划线
-	mark: true, // 标记
-	superscript: true, // 上角标
-	subscript: true, // 下角标
-	quote: true, // 引用
-	ol: true, // 有序列表
-	ul: true, // 无序列表
-	link: true, // 链接
-	imagelink: true, // 图片链接
-	code: true, // code
-	table: true, // 表格
-	fullscreen: true,
-	readmodel: true, // 沉浸式阅读
-	htmlcode: true // 展示html源码
-})
+
 const rules = reactive({
 	title: [
 		{ required: true, message: '请输入标题', trigger: 'blur' },
@@ -80,11 +94,20 @@ const getTags = () => {
 		Object.assign(tags, data);
 	})
 }
-const getData = (value: string, render: string) => {
+const getData = (render: string) => {
+	console.info(render)
 	formData.content_html = render
 }
-const imgAdd = (filename: string, imgfile: File) => {
+const imgAdd = (files: FileList, callback: (urls: string[]) => void) => {
 
+	let formdata = new FormData();
+	formdata.append("file", files[0]);
+
+	articleApis.upload(formdata).then(({ data: { data } }) => {
+		console.info(data)
+		let urls = [data]
+		callback(urls.map((url: any) => url))
+	})
 }
 
 onMounted(() => {
@@ -103,8 +126,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
 		if (valid) {
 			console.log('submit!')
 
-			Apis.save(formData).then(() => {
-
+			articleApis.save(formData).then((resp) => {
+				ElMessage({
+					showClose: true,
+					type: 'success',
+					message: '发布文章成功'
+				})
 			});
 		} else {
 			console.log('error submit!')

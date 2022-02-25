@@ -95,7 +95,6 @@ function getFormData(obj: any) {
 	if (form.length > 0) {
 		form = form.substring(0, form.length - 1)
 	}
-	console.info(form)
 	return form
 }
 class Request {

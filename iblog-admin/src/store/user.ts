@@ -13,19 +13,23 @@ export default <StoreOptions<{ [name: string]: any }>>{
         // 登录
         LOGIN(state, params) {
             // 获取路由列表
-            Apis.login(params).then(({ data }) => {
+            Apis.login(params).then(({ data: { data } }) => {
                 Storages.set('userInfo', JSON.stringify(data))
                 router.push('/home')
             })
         },
         // 退出登录
         LOGIN_OUT(state) {
-            Apis.loginOut().then(() => {
-                Storages.remove('token')
-                Storages.remove('userInfo')
-                state.token = null
-                state.userInfo = {}
-                router.push('/login')
+            Storages.remove('token')
+            Storages.remove('userInfo')
+            state.token = null
+            state.userInfo = {}
+            router.push('/login')
+        },
+        // 修改密码
+        MODIFY_PWD(state, params) {
+            Apis.modifyPwd(params).then((resp) => {
+                state.commit('LOGIN_OUT')
             })
         }
     },
@@ -35,6 +39,9 @@ export default <StoreOptions<{ [name: string]: any }>>{
         },
         loginOut({ commit }) {
             commit('LOGIN_OUT')
+        },
+        modifyPwd({ commit}, params) {
+            commit('MODIFY_PWD', params)
         }
     }
 }

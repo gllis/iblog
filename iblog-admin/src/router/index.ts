@@ -13,7 +13,7 @@ export default createRouter({
 		{
 			path: '/login',
 			name: 'Login',
-			component: () => import('~/views/Login.vue')
+			component: () => import('@/views/Login.vue')
 		},
 		{
 			path: '/home',
@@ -22,27 +22,27 @@ export default createRouter({
 		{
 			path: '/home',
 			name: 'Home',
-			component: () => import('~/components/layouts/BaseLayout.vue'),
+			component: () => import('@/components/layouts/BaseLayout.vue'),
 			children: [
 				{
 					path: '/setting',
 					name: 'Setting',
-					component: ()=> import('~/views/Setting.vue')
+					component: ()=> import('@/views/Setting.vue')
 				},
 				{
 					path: '/tag',
 					name: 'Tag',
-					component: () => import('~/views/Tag.vue')
+					component: () => import('@/views/Tag.vue')
 				},
 				{
 					path: '/article/list',
 					name: 'ArticleList',
-					component: () => import('~/views/article/List.vue')
+					component: () => import('@/views/article/List.vue')
 				},
 				{
 					path: '/article/publish',
 					name: 'ArticlePublish',
-					component: () => import('~/views/article/publish.vue')
+					component: () => import('@/views/article/publish.vue')
 				}
 			]
 		},

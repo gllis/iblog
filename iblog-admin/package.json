@@ -10,7 +10,7 @@
   "dependencies": {
     "axios": "^0.26.0",
     "element-plus": "^2.0.2",
-    "mavon-editor": "^3.0.0-beta",
+    "md-editor-v3": "^1.10.2",
     "md5": "^2.3.0",
     "vue": "^3.2.31",
     "vue-router": "^4.0.12",
