@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .header {
   border-bottom: 1px solid #eeeeee;
   background-color: #ffffff;

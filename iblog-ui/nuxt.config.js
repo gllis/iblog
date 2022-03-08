@@ -1,6 +1,7 @@
 
 export default {
-  mode: 'universal',
+  // Target: https://go.nuxtjs.dev/config-target
+   target: 'server',
   /*
   ** Headers of the page
   */
@@ -24,7 +25,7 @@ export default {
   ** Global CSS
   */
   css: [
-    "mavon-editor/dist/css/index.css"
+
   ],
   /*
   ** Plugins to load before mounting the App
@@ -33,15 +34,12 @@ export default {
     '@/plugins/element-ui',
     '@/plugins/axios',
     { src: '@/plugins/common', srr: false },
-    { src: '@/plugins/vue-mavon-editor', srr: false }
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
     '@nuxtjs/axios',
-    'cookie-universal-nuxt',
-    ['cookie-universal-nuxt', { alias: 'cookies' }],
   ],
   /*
   ** Build configuration

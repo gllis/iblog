@@ -11,18 +11,18 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.12.1",
-    "cookie-universal-nuxt": "^2.1.4",
-    "crypto-js": "^3.1.9-1",
-    "element-ui": "^2.13.2",
+    "@nuxtjs/axios": "^5.13.6",
+    "core-js": "^3.19.3",
+    "element-ui": "^2.15.6",
     "highlightjs-line-numbers.js": "^2.8.0",
-    "mavon-editor": "^2.9.0",
-    "nuxt": "^2.14.3"
+    "nuxt": "^2.15.8",
+    "vue": "^2.6.14",
+    "vue-server-renderer": "^2.6.14",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^4.46.0"
   },
   "devDependencies": {
-    "node-sass": "^4.14.1",
-    "nodemon": "^2.0.4",
-    "sass-loader": "^9.0.3",
-    "scss-loader": "0.0.1"
+    "less": "^3",
+    "less-loader": "^6.0.0"
   }
 }

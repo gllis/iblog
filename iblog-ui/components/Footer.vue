@@ -4,7 +4,7 @@
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .ui-footer {
     border-top: 1px solid #eee;
     background-color: #ffffff;
